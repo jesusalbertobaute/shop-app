@@ -1,6 +1,7 @@
 package com.shop.app.product.domain;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 public interface Product {
 	
@@ -15,4 +16,8 @@ public interface Product {
 	
 	BigDecimal getPrice();
 	void setPrice(BigDecimal price);
+	
+	LocalDateTime getCreationDate();
+	void setCreationDate(LocalDateTime creationDate);
+	
 }

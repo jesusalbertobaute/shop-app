@@ -1,6 +1,7 @@
 package com.shop.app.product.domain;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,6 +19,7 @@ public class ProductDomain implements Product{
 	private String brandCode;
 	
 	private BigDecimal price;
-
+	
+	LocalDateTime creationDate;
 
 }

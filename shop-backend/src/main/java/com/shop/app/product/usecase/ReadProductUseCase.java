@@ -1,6 +1,7 @@
 package com.shop.app.product.usecase;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class ReadProductUseCase implements ReadProduct {
 
 	@Override
 	public Product findByCode(String code) {
-		Product product= new ProductDomain("1","Milk 1L","D-1",BigDecimal.TEN);
+		Product product= loadDataProduct.findByCode(code);
 		return product;
 	}
 
@@ -28,7 +29,7 @@ public class ReadProductUseCase implements ReadProduct {
 	public List<Product> findByDescription(String description,int page,int quantity) {
 	    List<Product> products= new ArrayList<>();
 	    
-	    products.add(new ProductDomain("1","Milk 1L","D-1",BigDecimal.TEN));
+	    products.add(new ProductDomain("1","Milk 1L","D-1",BigDecimal.TEN,LocalDateTime.now()));
 		return products;
 	}
 
@@ -46,7 +47,7 @@ public class ReadProductUseCase implements ReadProduct {
 	public List<Product> findByPriceInterval(BigDecimal min, BigDecimal max) {
 	    List<Product> products= new ArrayList<>();
 	    
-	    products.add(new ProductDomain("39484828","Milk 1L","D-1",BigDecimal.TEN));
+	    products.add(new ProductDomain("39484828","Milk 1L","D-1",BigDecimal.TEN,LocalDateTime.now()));
 		return products;
 	}
 

@@ -14,9 +14,11 @@ import com.shop.app.product.domain.Product;
 import com.shop.app.product.output.port.LoadProduct;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @PersistenceOrm
 @AllArgsConstructor
+@Slf4j
 public class LoadProductJpaAdapter implements LoadProduct {
 	
 	private ProductRepository productRepository;
@@ -24,8 +26,15 @@ public class LoadProductJpaAdapter implements LoadProduct {
 	
 	@Override
 	public Product findByCode(String code) {
-		// TODO Auto-generated method stub
-		return null;
+		log.info("Information: ");
+		ProductEntity productEntity = productRepository.findByCode(code);
+		Product productDomain = null;
+		if (productEntity!=null) {
+		  log.info("Info: " + productEntity.getCreationDate());
+		  productDomain= ProductMapper.INSTANCE.convertFromProductEntityToProduct(productEntity);
+		  log.info("Info Domain: " + productDomain.getCreationDate());
+		}
+		return productDomain;
 	}
 
 	@Override

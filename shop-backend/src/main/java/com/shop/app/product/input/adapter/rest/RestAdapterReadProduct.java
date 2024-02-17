@@ -27,6 +27,11 @@ public class RestAdapterReadProduct {
 	@GetMapping("/search/{id}")
 	public ResponseEntity<Product> findById(@PathVariable("id")  String id){
 		Product product= readProductService.findByCode(id);
+		
+		if (product==null) {
+			return new ResponseEntity<Product>(HttpStatus.NOT_FOUND);
+		}
+		
 		return new ResponseEntity<Product>(product,HttpStatus.OK);
 	}
 	

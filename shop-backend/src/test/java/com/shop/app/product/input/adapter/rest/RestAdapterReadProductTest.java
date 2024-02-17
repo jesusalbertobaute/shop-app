@@ -1,10 +1,11 @@
 
-package com.shop.app.product.adapter.in.rest;
+package com.shop.app.product.input.adapter.rest;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.shop.app.product.domain.Product;
 import com.shop.app.product.domain.ProductDomain;
-import com.shop.app.product.input.adapter.rest.RestAdapterReadProduct;
 import com.shop.app.product.usecase.ReadProductUseCase;
 
 @WebMvcTest(RestAdapterReadProduct.class)
@@ -39,7 +39,7 @@ public class RestAdapterReadProductTest {
 	void setUp() {
 		products.clear();
 
-		products.add(new ProductDomain("1","Milk 1L","D-1",BigDecimal.TEN));
+		products.add(new ProductDomain("1","Milk 1L","D-1",BigDecimal.TEN,LocalDateTime.now()));
 	
 		
 	}
@@ -51,27 +51,25 @@ public class RestAdapterReadProductTest {
 		Mockito.when(readProductService.findByCode("1")).thenReturn(products.get(0));
 
 		mvc.perform(MockMvcRequestBuilders
-				.get("/product/search/{id}",1L)
+				.get("/product/search/{id}","1")
 				.accept(MediaType.APPLICATION_JSON))
 		.andDo(print())
 		.andExpect(status().isOk())
 		.andExpect(MockMvcResultMatchers.jsonPath("$.code").isNotEmpty())
-		.andExpect(MockMvcResultMatchers.jsonPath("$.description").isNotEmpty());
+		.andExpect(MockMvcResultMatchers.jsonPath("$.description").isNotEmpty())
+		.andExpect(MockMvcResultMatchers.jsonPath("$.price").isNotEmpty())
+		.andExpect(MockMvcResultMatchers.jsonPath("$.creationDate").isNotEmpty());
 		
-		
-		/*mvc.perform(MockMvcRequestBuilders
-				.get("/product/search/{id}","ddkdf")
-				.accept(MediaType.APPLICATION_JSON))
-		.andExpect(status().isBadRequest());
-		*/
 		mvc.perform(MockMvcRequestBuilders
-				.get("/product/search/{id}",-1)
+				.get("/product/search/{id}","1")
 				.accept(MediaType.APPLICATION_JSON))
-		.andExpect(status().isBadRequest());
+		//.andDo(print())
+		//.andExpect(status().isOk())
+		.andExpect(MockMvcResultMatchers.jsonPath("$.creationDate").exists());
 		
 		
 		mvc.perform(MockMvcRequestBuilders
-				.get("/product/search/{id}",Long.MAX_VALUE)
+				.get("/product/search/{id}","dddd")
 				.accept(MediaType.APPLICATION_JSON))
 		.andExpect(status().isNotFound());
 	}

@@ -1,6 +1,7 @@
 package com.shop.app.product.output.adapter.persistence.jpa;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 import com.shop.app.brand.output.adapter.persistence.jpa.BrandEntity;
 import com.shop.app.product.domain.Product;
@@ -27,6 +28,8 @@ public class ProductEntity implements Product{
 	private String description;
 	
 	private BigDecimal price;
+	
+	private LocalDateTime creationDate;
 	
 	@ManyToOne
 	@JoinColumn(name="brand_code")
