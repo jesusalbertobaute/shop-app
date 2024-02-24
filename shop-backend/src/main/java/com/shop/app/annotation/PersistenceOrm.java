@@ -1,4 +1,4 @@
-package com.shop.app.anotation;
+package com.shop.app.annotation;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Retention(RUNTIME)
 @Documented
 @Component
-public @interface UseCase {
+public @interface PersistenceOrm {
 	
 	@AliasFor(annotation= Component.class)
 	String value() default "";

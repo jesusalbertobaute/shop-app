@@ -9,7 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
-import com.shop.app.anotation.PersistenceOrm;
+import com.shop.app.annotation.PersistenceOrm;
 import com.shop.app.product.domain.Product;
 import com.shop.app.product.output.port.LoadProduct;
 
@@ -26,20 +26,18 @@ public class LoadProductJpaAdapter implements LoadProduct {
 	
 	@Override
 	public Product findByCode(String code) {
-		log.info("Information: ");
+		log.info("LoadProductJpaAdapter-find By {}",code);
 		ProductEntity productEntity = productRepository.findByCode(code);
 		Product productDomain = null;
 		if (productEntity!=null) {
-		  log.info("Info: " + productEntity.getCreationDate());
 		  productDomain= ProductMapper.INSTANCE.convertFromProductEntityToProduct(productEntity);
-		  log.info("Info Domain: " + productDomain.getCreationDate());
 		}
 		return productDomain;
 	}
 
 	@Override
 	public List<Product> findByDescription(String description, int page, int quantity) {
-		Pageable pageableProduct = getPageableByDescription(page,quantity);
+		Pageable pageableProduct = getPageableSortByDescription(page,quantity);
 
 		Page<ProductEntity> productEntityPage= productRepository.findByDescriptionLike(description,pageableProduct);
 		
@@ -55,7 +53,7 @@ public class LoadProductJpaAdapter implements LoadProduct {
 	@Override
 	public List<Product> findAll(int page, int quantity) {
 		
-		Pageable pageableProduct = getPageableByDescription(page,quantity);
+		Pageable pageableProduct = getPageableSortByDescription(page,quantity);
 
 		Page<ProductEntity> productEntityPage= productRepository.findAll(pageableProduct);
 		
@@ -69,19 +67,20 @@ public class LoadProductJpaAdapter implements LoadProduct {
 	}
 
 	@Override
-	public List<Product> findByPriceInterval(BigDecimal min, BigDecimal max) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private Pageable getPageableByCode(int page,int quantity) {
-		Pageable pageableProduct = PageRequest.of(page, quantity,Sort.by("code"));
+	public List<Product> findByPriceInterval(BigDecimal min, BigDecimal max,int page,int quantity) {
+		Pageable pageableProduct = PageRequest.of(page,quantity,Sort.by("description"));
+		Page<ProductEntity> productEntityPage = productRepository.findByPriceBetween(min, max, pageableProduct);
 		
-		return pageableProduct;
+		List<ProductEntity> productEntities = productEntityPage.getContent();
 		
+		List<Product> products = new ArrayList<>();
+		
+		products.addAll(ProductMapper.INSTANCE.convertFromProductEntitiesToProducts(productEntities));
+		
+		return products;
 	}
 	
-	private Pageable getPageableByDescription(int page,int quantity) {
+	private Pageable getPageableSortByDescription(int page,int quantity) {
 		Pageable pageableProduct = PageRequest.of(page, quantity,Sort.by("description"));
 		
 		return pageableProduct;

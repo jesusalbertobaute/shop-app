@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,8 @@ public class RestAdapterReadProductTest {
 	
 	
 	@Test
-	public void testFindByCode() throws Exception 
+	@DisplayName("Unit Test for do request product by code")
+	public void givenCodeProduct_whenDoRequestedProduct_thenReturnProduct() throws Exception 
 	{
 		Mockito.when(readProductService.findByCode("1")).thenReturn(products.get(0));
 
@@ -63,8 +65,6 @@ public class RestAdapterReadProductTest {
 		mvc.perform(MockMvcRequestBuilders
 				.get("/product/search/{id}","1")
 				.accept(MediaType.APPLICATION_JSON))
-		//.andDo(print())
-		//.andExpect(status().isOk())
 		.andExpect(MockMvcResultMatchers.jsonPath("$.creationDate").exists());
 		
 		

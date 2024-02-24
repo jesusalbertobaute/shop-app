@@ -12,5 +12,5 @@ public interface ReadProduct {
 	
 	List<Product> findAll(int page,int quantity);
 	
-	List<Product> findByPriceInterval(BigDecimal min,BigDecimal max);
+	List<Product> findByPriceInterval(BigDecimal min,BigDecimal max,int page,int quantity);
 }

@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 public interface Product {
 	
 	String getCode();
-	void setCode(String id);
+	void setCode(String code);
 	
 	String getDescription();
 	void setDescription(String description);
