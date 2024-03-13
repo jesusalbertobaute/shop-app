@@ -7,6 +7,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import com.shop.app.brand.output.adapter.persistence.jpa.BrandMapper;
+import com.shop.app.product.domain.Product;
 import com.shop.app.product.domain.ProductDomain;
 
 
@@ -15,14 +16,19 @@ public interface ProductMapper {
     ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
     
     @Mapping(source="brandCode",target="brand.code")
-  //  @Mapping(target = "creationDate", expression = "java(LocalDateTime.of(source.getCreationDate().toLocalDate(), source.getCreationDate().toLocalTime()))")
     @Mapping(source="creationDate", target = "creationDate",dateFormat="yyyy-MM-dd'T'HH:mm:ss")
     ProductEntity convertFromProductToProductEntity(ProductDomain product);
     
     @Mapping(source="brand.code",target="brandCode")
-    //@Mapping(target = "creationDate", expression = "java(LocalDateTime.of(source.getCreationDate().toLocalDate(), source.getCreationDate().toLocalTime()))")
     @Mapping(source="creationDate", target = "creationDate",dateFormat="yyyy-MM-dd'T'HH:mm:ss") //Esto Funciona
     ProductDomain convertFromProductEntityToProduct(ProductEntity product);
+    
+    @Mapping(source="creationDate", target = "creationDate",dateFormat="yyyy-MM-dd'T'HH:mm:ss")
+    ProductDomain convertFromProductToProductDomain(Product product);
+    
+    @Mapping(source="brandCode",target="brand.code")
+    @Mapping(source="creationDate", target = "creationDate",dateFormat="yyyy-MM-dd'T'HH:mm:ss")
+    ProductEntity convertFromProductToProductEntity(Product product);
     
     List<ProductEntity> convertFromProductsToProductEntities(List<ProductDomain> products);
     

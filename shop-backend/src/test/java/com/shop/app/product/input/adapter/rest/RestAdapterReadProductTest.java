@@ -39,16 +39,13 @@ public class RestAdapterReadProductTest {
 	@BeforeEach
 	void setUp() {
 		products.clear();
-
 		products.add(new ProductDomain("1","Milk 1L","D-1",BigDecimal.TEN,LocalDateTime.now()));
-	
-		
 	}
 	
 	
 	@Test
 	@DisplayName("Unit Test for do request product by code")
-	public void givenCodeProduct_whenDoRequestedProduct_thenReturnProduct() throws Exception 
+	public void findById() throws Exception 
 	{
 		Mockito.when(readProductService.findByCode("1")).thenReturn(products.get(0));
 

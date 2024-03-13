@@ -2,11 +2,15 @@ package com.shop.app.product.usecase;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
+
+import org.springframework.util.ObjectUtils;
 
 import com.shop.app.annotation.UseCase;
 import com.shop.app.product.domain.Product;
 import com.shop.app.product.input.port.ReadProduct;
 import com.shop.app.product.output.port.LoadProduct;
+import com.shop.app.product.usecase.exception.InvalidProductCodeException;
 
 import lombok.AllArgsConstructor;
 
@@ -17,7 +21,10 @@ public class ReadProductUseCase implements ReadProduct {
 	private LoadProduct loadDataProduct;
 
 	@Override
-	public Product findByCode(String code) {
+	public Product findByCode(String code) throws InvalidProductCodeException{
+		if (ObjectUtils.isEmpty(code))
+			throw new InvalidProductCodeException();
+			
 		Product product= loadDataProduct.findByCode(code);
 		return product;
 	}

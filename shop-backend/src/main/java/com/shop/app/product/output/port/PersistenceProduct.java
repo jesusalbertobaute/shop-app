@@ -4,6 +4,6 @@ import com.shop.app.product.domain.Product;
 
 public interface PersistenceProduct {
 	boolean saveProduct(Product product);
-	boolean updateProduct(Product product);
 	boolean deleteProduct(Product product);
+	boolean deleteProduct(String codeProduct);
 }
